@@ -1,9 +1,9 @@
 import numpy as np
 from numba import njit
 from scipy.integrate import solve_ivp
-from model import TreeToSchedule
+from scheduler import plan_to_schedule
 import matplotlib.pyplot as plt
-sched1=TreeToSchedule(0.5,0.25,0.75,0.5,1,1)
+sched1=plan_to_schedule(0.5,0.25,0.75,0.5,1,1)
 DRUG=0;DOSE=1;START=2;END=3
 
 #find sched tox for given day
@@ -22,13 +22,13 @@ def FindSchedTox(t,i,sched,patientToxs):
     return sched[i,DOSE]*patientToxs[DRUG]
 
 @njit
-def RunToxDifferenceEquation(tox0, tStart,tEnd, sched, sen1, sen2, sen3, sen4, decay,breakThresh):
+def RunToxDifferenceEquation(tox0, tStart, tEnd, sched, sens, decay,breakThresh):
     ys=np.zeros((tEnd-tStart)+1+len(sched)*14)
     breaks=np.zeros(len(sched))
     iSched=0
     y=0
     timedisp=0
-    patientToxs=np.array((sen1,sen2,sen3,sen4))
+    patientToxs=np.array(sens)
     for t in range(tStart,tEnd+1):
         iSched=FindSchedI(t,iSched,sched)
         tox=FindSchedTox(t,iSched,sched,patientToxs)
@@ -46,7 +46,7 @@ def RunToxDifferenceEquation(tox0, tStart,tEnd, sched, sen1, sen2, sen3, sen4, d
                         ys[t + timedisp] = y+tox0
     return ys,breaks
 
-#@njit
+@njit
 def GenNewSched(sched,breaks):
     out=np.zeros((len(sched),4))
     timeDisp=0
@@ -57,19 +57,3 @@ def GenNewSched(sched,breaks):
         out[i,END]=sched[i,END]+timeDisp
         timeDisp+=breaks[i]*7
     return out
-
-#out=RunToxDifferenceEquation(0,0,400,sched1,0.5,0.25,0.75,0.25,0.8,0.9)
-#newSched=GenNewSched(sched1,out[1])
-#print("here")
-#plt.plot(out[0])
-#plt.show()
-#def RunToxODE(tox0, tStart,tEnd, sched, sen1, sen2, sen3, sen4, decay):
-#    iArr=np.zeros((1),dtype=int)
-#    patientToxs=np.array((sen1,sen2,sen3,sen4))
-#    def ToxODE(t,y):
-#        addedTox=FindSchedTox(t,iArr,sched,patientToxs)
-#        y+=addedTox
-#        y*=decay
-#        return y
-#    return solve_ivp(ToxODE,y0=np.array([tox0]),t_span=(tStart,tEnd),method='LSODA',t_eval=(np.arange(tStart,tEnd+1,1)))
-

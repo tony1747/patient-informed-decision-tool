@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import integrate
 
-
 def tumour_growth(C0, T, D, a, S=(0.02173619,0.01514206,0.0093043,0.00486851), TD=180.):
     """
     :param c0: Initial tumour value
@@ -34,7 +33,6 @@ def tumour_growth(C0, T, D, a, S=(0.02173619,0.01514206,0.0093043,0.00486851), T
                               method='LSODA')
 
     return sol
-
 
 def ode(t, C, g, a, S, drug_matrix):
     s1, s2, s3, s4 = S
