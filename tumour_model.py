@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import integrate
-from numba import jit
 
 
 def tumour_growth(C0, T, D, a, S, TD=180.):
@@ -65,40 +64,12 @@ def ode(t, C, g, a, S, drug_matrix):
     return (g * np.square(C)) / (a + C) - s1 * h1 * C - s2 * h2 * C - s3 * h3 * C - s4 * h4 * C
 
 
-drug_matrix = np.array([
-    ["d1", 0.5, 1., 2.],
-    ["d1", 0.3, 5., 9.],
-    ["d1", 0.7, 10., 15.],
-    ["d1", 0.1, 20., 25.],
-    ["d2", 0.9, 2., 20.],
-    ["d2", 0.9, 10., 20.],
-    ["d3", 0.8, 30., 40.],
-    ["d4", 0.8, 70., 80.],
-    ], dtype=object)
-
-drug_matrix = np.array([
-    ["d1", 0.0, 0., 2.],
-    ["d1", 0.0, 5., 9.],
-    ["d1", 0.0, 10., 15.],
-    ["d1", 1.0, 20., 30.],
-    ["d2", 0.0, 2., 20.],
-    ["d2", 0.75, 100., 120.],
-    ["d3", 0.0, 30., 40.],
-    ["d4", 0.0, 70., 80.],
-    ], dtype=object)
+def plot_solution(solution):
+    fig, ax = plt.subplots(figsize=(4, 3))
+    ax.set_xlabel("$t$")
+    ax.set_ylabel("c(t)")
+    plt.plot(solution.t, solution.y.T[:, 0], color="black", lw=2);
 
 
-
-S = np.array([0.1, 0.2, 0.3, 0.4])
-g = 1
-a = 1
-
-sol = tumour_growth(10000., 300., drug_matrix, a, S, TD=180.)
-ax = plt.gca()
-ax.set_xlabel("$t$")
-ax.set_ylabel("c(t)")
-plt.plot(sol.t, sol.y.T[:, 0], color="black", lw=2)
-
-plt.savefig("test2")
-print("huhu")
-
+def final_tumour_volume(solution):
+    return solution.y.T[:, 0][-1]
