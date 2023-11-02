@@ -26,7 +26,7 @@ def report_to_df(plan):
     schedule = []
     for drug, cycles in plan.items():
         for cycle in cycles:
-            schedule.append([drug, cycle['dose'], cycle['start'], cycle['end']])
-    df = pd.DataFrame(schedule, columns=['drug', 'dose', 'start', 'end'])
-    df.set_index('drug', inplace=True)
+            schedule.append([drug, cycle['dose'], cycle['end'] - cycle['start']])
+    df = pd.DataFrame(schedule, columns=['strike', 'dose', 'days'])
+    df.set_index('strike', inplace=True)
     return df

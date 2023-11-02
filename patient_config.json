@@ -1,0 +1,6 @@
+{
+    "burden": 10e6,
+    "toxicity": 0.5,
+    "start_strike": 1,
+    "start_cycle": 1    
+}
