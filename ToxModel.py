@@ -58,11 +58,11 @@ def GenNewSched(sched,breaks):
         timeDisp+=breaks[i]*7
     return out
 
-out=RunToxDifferenceEquation(0,0,400,sched1,0.5,0.25,0.75,0.25,0.8,0.9)
-newSched=GenNewSched(sched1,out[1])
-print("here")
-plt.plot(out[0])
-plt.show()
+#out=RunToxDifferenceEquation(0,0,400,sched1,0.5,0.25,0.75,0.25,0.8,0.9)
+#newSched=GenNewSched(sched1,out[1])
+#print("here")
+#plt.plot(out[0])
+#plt.show()
 #def RunToxODE(tox0, tStart,tEnd, sched, sen1, sen2, sen3, sen4, decay):
 #    iArr=np.zeros((1),dtype=int)
 #    patientToxs=np.array((sen1,sen2,sen3,sen4))

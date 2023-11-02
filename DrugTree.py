@@ -1,5 +1,7 @@
 from ToxModel import *
 from model import *
+import matplotlib.pyplot as plt
+from tumour_model import *
 paramSets=[]
 
 class ParamSet:
@@ -8,13 +10,25 @@ class ParamSet:
         self.d2=d2
         self.d3=d3
         self.d4=d4
-        self.sched=TreeToSchedule(d1,d2,d3,d4)
+        self.sched=TreeToSchedule(d1,d2,d3,d4,1,1)
+        self.breakSched=None
+        self.breaks=None
+        self.toxs=None
 
-for d1 in range(0,6):
-    for d2 in range(0,6):
-        for d3 in range(0,6):
-            for d4 in range(0,6):
-                paramSets.append(ParamSet(d1/12+0.5,d2/12+0.5,d3/12+0.5,d4/12+0.5))
+#for d1 in range(0,6):
+#    for d2 in range(0,6):
+#        for d3 in range(0,6):
+#            for d4 in range(0,6):
+#                paramSets.append(ParamSet(d1/10+0.5,d2/10+0.5,d3/10+0.5,d4/10+0.5))
 
+paramSets.append(ParamSet(1,1,1,1))
 for params in paramSets:
-    RunToxDifferenceEquation(0,0,365,params.sched,)
+    toxs,breaks=RunToxDifferenceEquation(0,0,365,params.sched,0.5,0.5,0.5,0.5,0.95,10.0)
+    params.breakSched=breaks
+    params.toxs=toxs
+    newSched=GenNewSched(params.sched,breaks)
+    sol=tumour_growth(1e11,365*2,newSched,300)
+    plt.plot(sol.t,np.log10(sol.y.flatten()))
+    #    plt.plot(toxs)
+
+    plt.show()

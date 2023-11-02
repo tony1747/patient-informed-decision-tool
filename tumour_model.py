@@ -39,10 +39,10 @@ def tumour_growth(C0, T, D, a, S=(0.02173619,0.01514206,0.0093043,0.00486851), T
 def ode(t, C, g, a, S, drug_matrix):
     s1, s2, s3, s4 = S
 
-    d1 = drug_matrix[np.where(drug_matrix[:, 0] == "d1"), 1:4][0]
-    d2 = drug_matrix[np.where(drug_matrix[:, 0] == "d2"), 1:4][0]
-    d3 = drug_matrix[np.where(drug_matrix[:, 0] == "d3"), 1:4][0]
-    d4 = drug_matrix[np.where(drug_matrix[:, 0] == "d4"), 1:4][0]
+    d1 = drug_matrix[np.where(drug_matrix[:, 0] == 1), 1:4][0]
+    d2 = drug_matrix[np.where(drug_matrix[:, 0] == 2), 1:4][0]
+    d3 = drug_matrix[np.where(drug_matrix[:, 0] == 3), 1:4][0]
+    d4 = drug_matrix[np.where(drug_matrix[:, 0] == 4), 1:4][0]
 
     h1 = d1[np.where((d1[:, 1] < t) & (t < d1[:, 2])), 0]
     if h1.size==0:
