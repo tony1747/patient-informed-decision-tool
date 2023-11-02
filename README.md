@@ -1,7 +1,27 @@
 # patient-informed-decision-tool
 MOFFITT IMO 2023 Workshop
 
+## Requirements
+
+* Conda
+* Python 3.9 or greater
+
+The required packages are listed in `conda_moffitt.yml`. To install them, run:
+
+```
+conda env create -f conda_moffitt.yml
+```
+
 ##  Interfaces
+
+### Patient:
+
+Patient configuration is specified in the `patient_config.json` file. The file contains the following fields:
+
+* `burden`: the initial tumor burden
+* `toxicity`: the initial toxicity
+* `start_strike`: the 1-index of the first drug in the sequence
+* `start_cycle`: the 1-index of the first cycle in the strike
 
 ### Treatment plan:
 
