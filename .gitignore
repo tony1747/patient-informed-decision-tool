@@ -1,3 +1,5 @@
 /.idea/
 /simulator/obj/
 /simulator/bin/
+*.pyc
+__pycache__/
