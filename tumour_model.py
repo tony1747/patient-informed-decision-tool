@@ -39,25 +39,25 @@ def tumour_growth(C0, T, D, a, S, TD=180.):
 def ode(t, C, g, a, S, drug_matrix):
     s1, s2, s3, s4 = S
 
-    d1 = drug_matrix[np.where(drug_matrix[:, 0] == "d1"), 1:4][0]
-    d2 = drug_matrix[np.where(drug_matrix[:, 0] == "d2"), 1:4][0]
-    d3 = drug_matrix[np.where(drug_matrix[:, 0] == "d3"), 1:4][0]
-    d4 = drug_matrix[np.where(drug_matrix[:, 0] == "d4"), 1:4][0]
+    d1 = drug_matrix[np.where(drug_matrix[:, 0] == 1.0), 1:4][0]
+    d2 = drug_matrix[np.where(drug_matrix[:, 0] == 2.0), 1:4][0]
+    d3 = drug_matrix[np.where(drug_matrix[:, 0] == 3.0), 1:4][0]
+    d4 = drug_matrix[np.where(drug_matrix[:, 0] == 4.0), 1:4][0]
 
-    h1 = d1[np.where((d1[:, 1] < t) & (t < d1[:, 2])), 0].any()
-    if not h1:
+    h1 = d1[np.where((d1[:, 1] < t) & (t < d1[:, 2])), 0]
+    if h1.size==0:
         h1 = 0.0
 
-    h2 = d2[np.where((d2[:, 1] < t) & (t < d2[:, 2])), 0].any()
-    if not h2:
+    h2 = d2[np.where((d2[:, 1] < t) & (t < d2[:, 2])), 0]
+    if h2.size==0:
         h2 = 0.0
 
-    h3 = d3[np.where((d3[:, 1] < t) & (t < d3[:, 2])), 0].any()
-    if not h3:
+    h3 = d3[np.where((d3[:, 1] < t) & (t < d3[:, 2])), 0]
+    if h3.size==0:
         h3 = 0.0
 
-    h4 = d4[np.where((d4[:, 1] < t) & (t < d4[:, 2])), 0].any()
-    if not h4:
+    h4 = d4[np.where((d4[:, 1] < t) & (t < d4[:, 2])), 0]
+    if h4.size==0:
         h4 = 0.0
 
 
