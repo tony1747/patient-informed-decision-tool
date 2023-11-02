@@ -37,3 +37,11 @@ def report_to_df(plan):
     df = pd.DataFrame(schedule, columns=["strike", "dose", "days"])
     df = df.astype({"strike": int, "dose": str, "days": int})
     return df
+
+
+def get_plan(params):
+    return [params[f"s{i}"] for i in [1,2,3,4]]
+
+
+def get_toxicities(params):
+    return [params[f"tx{i}"] for i in [1,2,3,4]]
