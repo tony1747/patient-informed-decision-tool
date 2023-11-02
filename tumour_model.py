@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from scipy import integrate
 
 
-def tumour_growth(C0, T, D, a, S=(0.01403122,0.01514206,0.0093043,0.00486851), TD=180.):
+def tumour_growth(C0, T, D, a, S=(0.02173619,0.01514206,0.0093043,0.00486851), TD=180.):
     """
     :param c0: Initial tumour value
     :param T: End of simulation time
