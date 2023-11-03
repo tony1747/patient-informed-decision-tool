@@ -49,8 +49,7 @@ def RunToxDifferenceEquation(tox0, tStart, tEnd, sched, sens, decay,breakThresh)
                         timedisp += 1
                         y *= decay
                         ys[t + timedisp] = y+tox0
-    if breaking:
-        return None,None
+    if breaking: return None,None
     return ys,breaks
 
 @njit
