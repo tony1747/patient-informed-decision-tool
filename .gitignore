@@ -3,3 +3,4 @@
 /simulator/bin/
 *.pyc
 __pycache__/
+*.p

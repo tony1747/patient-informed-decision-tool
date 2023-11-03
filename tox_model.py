@@ -16,16 +16,33 @@ def FindSchedI(t,i,sched):
     return i
 
 @njit
-def FindSchedTox(t,i,sched,patientToxs):
+def FindSchedTox(t,i,sched,patientToxs,doseReduction):
     if sched[i,START]>t:return 0
     if sched[i,END]<t:return 0
-    return sched[i,DOSE]*patientToxs[DRUG]
+    return (sched[i,DOSE]-doseReduction)*patientToxs[DRUG]
 
 #@njit
-def RunToxDifferenceEquation(tox0, tStart, tEnd, sched, sens, decay,breakThresh):
+#lognormal(0.5,1.4)
+def ToxReductionScalar(tox):
+    minVal=0.3
+    maxVal=1
+    minScalar=0.0
+    maxScalar=0.1
+    if tox<minVal: return minScalar
+    if tox>=minVal and tox<maxVal: return (minScalar*(maxVal-tox)+maxScalar*(tox-minVal))/(maxVal-minVal)
+    else:return maxScalar
+#    result=-((0.2854959 * np.exp(-0.255102 * (np.log(tox) + 0.5) ** 2)) / tox)*scalar
+#    if tox+result<0:return 0
+#    return tox+result
+
+#@njit
+def RunToxDifferenceEquation(tox0, tStart, tEnd, sched, sens, decay,breakThresh,reduceThresh):
+    idrug=0
+    doseReduction=0
     breaking=False
     ys=np.zeros((tEnd-tStart)+1+len(sched)*14)
     breaks=np.zeros(len(sched))
+    reduces=np.zeros(len(sched))
     iSched=0
     y=0
     timedisp=0
@@ -34,19 +51,26 @@ def RunToxDifferenceEquation(tox0, tStart, tEnd, sched, sens, decay,breakThresh)
         if breaking:
             break
         iSched=FindSchedI(t,iSched,sched)
-        tox=FindSchedTox(t,iSched,sched,patientToxs)
+        if(idrug!=sched[iSched,DRUG]):
+            idrug=sched[iSched,DRUG]
+            doseReduction=0
+        tox=FindSchedTox(t,iSched,sched,patientToxs,doseReduction)
         y+=tox
-        y*=decay
+        y*=decay+(1-decay)*(y*0.85)
         ys[t+timedisp]=y+tox0
-        #incorporate breaks
+        #incorporate tox reduction
         if t == sched[iSched, END]:
+            reduces[iSched]=doseReduction
             for i in range(2):
                 if y+tox0 > breakThresh:
                     breaks[iSched]+=1
+                    if doseReduction<0.2: doseReduction += 0.1
                     for i in range(7):
                         timedisp += 1
-                        y *= decay
+                        y*=decay+(1-decay)*(y*0.85)
                         ys[t + timedisp] = y+tox0
+                if y+tox0 > reduceThresh:
+                    if doseReduction<0.2: doseReduction += 0.1
             if y + tox0 > breakThresh: breaking = True
     if breaking: return None,None
     return ys,breaks
