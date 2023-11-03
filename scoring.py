@@ -11,9 +11,9 @@ def score(config, plan):
     duration = int(sch.duration(schedule))
     toxicities = fm.get_toxicities(config)
     tox, breaks = tm.RunToxDifferenceEquation(
-        config["toxicity"], 0, duration, schedule, toxicities, config["r"], 10.0
+        config["toxicity"], 0, duration, schedule, toxicities, config["r"], 5.0
     )
-    if (tox == None):
+    if tox is None:
         return None
     sensitivities = fm.get_sensitivities(config)
     new_schedule = tm.GenNewSched(schedule, breaks)
