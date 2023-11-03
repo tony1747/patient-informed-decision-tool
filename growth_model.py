@@ -42,10 +42,10 @@ def tumour_growth(C0, T, D, a=300., S=(0.02173619,0.01514206,0.0093043,0.0048685
 def ode(t, C, g, a, S, drug_matrix):
     s1, s2, s3, s4 = S
 
-    d1 = drug_matrix[np.where(drug_matrix[:, 0] == 1), 1:4][0]
-    d2 = drug_matrix[np.where(drug_matrix[:, 0] == 2), 1:4][0]
-    d3 = drug_matrix[np.where(drug_matrix[:, 0] == 3), 1:4][0]
-    d4 = drug_matrix[np.where(drug_matrix[:, 0] == 4), 1:4][0]
+    d1 = drug_matrix[np.where(drug_matrix[:, 0] == 1.), 1:4][0]
+    d2 = drug_matrix[np.where(drug_matrix[:, 0] == 2.), 1:4][0]
+    d3 = drug_matrix[np.where(drug_matrix[:, 0] == 3.), 1:4][0]
+    d4 = drug_matrix[np.where(drug_matrix[:, 0] == 4.), 1:4][0]
 
     h1 = d1[np.where((d1[:, 1] < t) & (t < d1[:, 2])), 0]
     if h1.size==0:
@@ -79,4 +79,4 @@ def final_tumour_volume(solution):
 
 
 def tumour_end_of_treatment(solution):
-    return sol.y_events[0].flatten()[0]
+    return solution.y_events[0].flatten()[0]
