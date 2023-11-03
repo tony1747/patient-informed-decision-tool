@@ -79,4 +79,4 @@ def final_tumour_volume(solution):
 
 
 def tumour_end_of_treatment(solution):
-    return sol.y_events[0].flatten()[0]
+    return solution.y_events[0].flatten()[0]
