@@ -3,6 +3,10 @@ import matplotlib.pyplot as plt
 from scipy import integrate
 
 
+def event(t, C, g, a, S, drug_matrix):
+    return t - drug_matrix[-1,-1]
+
+
 def tumour_growth(C0, T, D, a=300., S=(0.02173619,0.01514206,0.0093043,0.00486851), TD=180.):
     """
     :param c0: Initial tumour value
@@ -72,3 +76,7 @@ def plot_solution(solution):
 
 def final_tumour_volume(solution):
     return solution.y.T[:, 0][-1]
+
+
+def tumour_end_of_treatment(solution):
+    return sol.y_events[0].flatten()[0]
