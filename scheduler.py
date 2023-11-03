@@ -40,3 +40,9 @@ def plan_to_schedule(d1, d2, d3, d4, startStrike, startCycle):
 def duration(schedule):
     return schedule[-1][3]
     
+
+def search_from_dose(config):
+    if config["start_cycle"] != 1:
+        return min(5, config["start_strike"] + 1)
+    else:
+        return min(5, config["start_strike"])
