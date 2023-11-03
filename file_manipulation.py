@@ -39,7 +39,7 @@ def report_to_df(plan):
     return df
 
 
-def get_plan(params):
+def get_sensitivities(params):
     return [params[f"s{i}"] for i in [1,2,3,4]]
 
 

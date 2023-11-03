@@ -13,9 +13,10 @@ def score(config, plan):
     tox, breaks = tm.RunToxDifferenceEquation(
         config["toxicity"], 0, duration, schedule, toxicities, config["r"], 10.0
     )
+    sensitivities = fm.get_sensitivities(config)
     new_schedule = tm.GenNewSched(schedule, breaks)
     growth_solution = gm.tumour_growth(
-        config["burden"], duration, new_schedule, config["a"], plan
+        config["burden"], duration, new_schedule, config["a"], sensitivities
     )
     return {
         "plan": plan,
