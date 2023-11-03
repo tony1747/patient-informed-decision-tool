@@ -17,8 +17,9 @@ def score(config, plan):
         return None
     sensitivities = fm.get_sensitivities(config)
     new_schedule = tm.GenNewSched(schedule, breaks)
+    new_duration = int(sch.duration(new_schedule))
     growth_solution = gm.tumour_growth(
-        config["burden"], duration, new_schedule, config["a"], sensitivities
+        config["burden"], new_duration, new_schedule, config["a"], sensitivities
     )
     return {
         "plan": plan,

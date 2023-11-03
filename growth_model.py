@@ -71,7 +71,7 @@ def plot_solution(solution):
     fig, ax = plt.subplots(figsize=(4, 3))
     ax.set_xlabel("$t$")
     ax.set_ylabel("c(t)")
-    plt.plot(solution.t, solution.y.T[:, 0], color="black", lw=2);
+    ax.plot(solution.t, solution.y.T[:, 0], color="black", lw=2);
 
 
 def final_tumour_volume(solution):
