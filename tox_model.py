@@ -23,6 +23,7 @@ def FindSchedTox(t,i,sched,patientToxs):
 
 @njit
 def RunToxDifferenceEquation(tox0, tStart, tEnd, sched, sens, decay,breakThresh):
+    breaking=False
     ys=np.zeros((tEnd-tStart)+1+len(sched)*14)
     breaks=np.zeros(len(sched))
     iSched=0
@@ -30,6 +31,8 @@ def RunToxDifferenceEquation(tox0, tStart, tEnd, sched, sens, decay,breakThresh)
     timedisp=0
     patientToxs=np.array(sens)
     for t in range(tStart,tEnd+1):
+        if breaking:
+            break
         iSched=FindSchedI(t,iSched,sched)
         tox=FindSchedTox(t,iSched,sched,patientToxs)
         y+=tox
@@ -37,13 +40,16 @@ def RunToxDifferenceEquation(tox0, tStart, tEnd, sched, sens, decay,breakThresh)
         ys[t+timedisp]=y+tox0
         #incorporate breaks
         if t == sched[iSched, END]:
-            for i in range(2):
+            for i in range(3):
+                if i==3 and y+tox0 > breakThresh:
+                    breaking=True
                 if y+tox0 > breakThresh:
                     breaks[iSched]+=1
                     for i in range(7):
                         timedisp += 1
                         y *= decay
                         ys[t + timedisp] = y+tox0
+    if breaking: return None,None
     return ys,breaks
 
 @njit
