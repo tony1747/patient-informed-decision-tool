@@ -36,13 +36,13 @@ plan = (1, 0.75, 0.75, 0.5)
 A schedule is a list of individual cycles. Each cycle specifies a drug, a does, start (in days), and an end.
 
 ````
-schedule = [
+schedule = 
 [
-    ["d1", 0.5, 1, 2],
-    ["d1", 0.3, 5, 9],
-    ["d2", 0.9, 2, 20],
-    ["d2", 0.9, 10, 20],
-    ["d3", 0.8, 30, 40],
-    ["d4", 0.8, 70, 80]
+    [1, 0.5, 1, 2],
+    [1, 0.3, 5, 9],
+    [2, 0.9, 2, 20],
+    [2, 0.9, 10, 20],
+    [3, 0.8, 30, 40],
+    [4, 0.8, 70, 80]
 ]
 ````
