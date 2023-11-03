@@ -43,6 +43,7 @@ def RunToxDifferenceEquation(tox0, tStart, tEnd, sched, sens, decay,breakThresh)
             for i in range(3):
                 if i==3 and y+tox0 > breakThresh:
                     breaking=True
+                    break
                 if y+tox0 > breakThresh:
                     breaks[iSched]+=1
                     for i in range(7):
