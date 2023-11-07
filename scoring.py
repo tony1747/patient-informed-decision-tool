@@ -4,6 +4,9 @@ import scheduler as sch
 import file_manipulation as fm
 import numpy as np
 
+BREAK_THRESH = 1.0
+REDUCE_THRESH = 0.8
+
 def score(config, plan):
     schedule = sch.plan_to_schedule(
         *plan, config["start_strike"], config["start_cycle"]
@@ -11,7 +14,7 @@ def score(config, plan):
     duration = int(sch.duration(schedule))
     toxicities = fm.get_toxicities(config)
     tox, breaks = tm.RunToxDifferenceEquation(
-        config["toxicity"], 0, duration, schedule, toxicities, config["r"], 1.0
+        config["toxicity"], 0, duration, schedule, toxicities, config["r"], BREAK_THRESH, REDUCE_THRESH
     )
     if tox is None:
         return None

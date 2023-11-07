@@ -36,7 +36,7 @@ def ToxReductionScalar(tox):
 #    return tox+result
 
 #@njit
-def RunToxDifferenceEquation(tox0, tStart, tEnd, sched, sens, decay,breakThresh,reduceThresh):
+def RunToxDifferenceEquation(tox0, tStart, tEnd, sched, sens, decay, breakThresh,reduceThresh):
     idrug=0
     doseReduction=0
     breaking=False
